@@ -35,7 +35,6 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<Echo> {
 				ctx.writeAndFlush(req);
 			} else if ("end".equals(msg)) {
 //				log.info("一次会话结束.共[{}]次会话.",total.incrementAndGet());
-//				if (Long.valueOf(10000).equals(total.get())) {
 				total.incrementAndGet();
 				if (Long.valueOf(1000000).equals(total.get()*8)) {
 					log.info("共耗时:[{}]秒", (System.currentTimeMillis() - resp.getStartTimeStamp())/1000);
