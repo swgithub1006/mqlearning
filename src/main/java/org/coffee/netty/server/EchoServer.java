@@ -32,11 +32,10 @@ import io.netty.handler.logging.LoggingHandler;
 public class EchoServer {
 
 	public void bind(int port) throws Exception {
-
 		// 配置服务端的NIO线程组
-		EventLoopGroup bossGroup = new NioEventLoopGroup(8);
+		EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 
-		EventLoopGroup workerGroup = new NioEventLoopGroup(1);
+		EventLoopGroup workerGroup = new NioEventLoopGroup(2);
 
 		try {
 			ServerBootstrap b = new ServerBootstrap();

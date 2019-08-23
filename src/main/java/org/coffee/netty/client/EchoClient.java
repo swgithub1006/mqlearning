@@ -3,6 +3,7 @@ package org.coffee.netty.client;
 import org.coffee.model.Echo;
 import org.coffee.netty.codec.EchoDecoder;
 import org.coffee.netty.codec.EchoEncoder;
+import org.coffee.netty.constant.Constant;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -82,44 +83,15 @@ public class EchoClient {
 		}
 
 		EchoClient client = new EchoClient();
-		/*
-		Channel channel = client.connect(port, "127.0.0.1");
-		for (long i = 0; i < 100000; i++) {
-			Echo echo = new Echo("吃了没，您呐？");
-			if(i==0) {
-				echo.setStartTimeStamp(System.currentTimeMillis());
-			}
-			channel.writeAndFlush(echo);
-		}
-		*/
+
 		Channel c1 = client.connect(port, "127.0.0.1");
-		Channel c2 = client.connect(port, "127.0.0.1");
-		Channel c3 = client.connect(port, "127.0.0.1");
-		Channel c4 = client.connect(port, "127.0.0.1");
-		Channel c5 = client.connect(port, "127.0.0.1");
-		Channel c6 = client.connect(port, "127.0.0.1");
-		Channel c7 = client.connect(port, "127.0.0.1");
-		Channel c8 = client.connect(port, "127.0.0.1");
-//		Channel c9 = client.connect(port, "127.0.0.1");
-		
-//		Thread.sleep(60000);
-		
-		for (long i = 0; i < 125000; i++) {
+		for (long i = 0; i < Constant.MEETING_1; i++) {
 			Echo echo = new Echo("吃了没，您呐？");
-			if(i==0) {
+			if (i == 0) {
 				echo.setStartTimeStamp(System.currentTimeMillis());
 			}
 			c1.writeAndFlush(echo);
-			c2.writeAndFlush(echo);
-			c3.writeAndFlush(echo);
-			c4.writeAndFlush(echo);
-			c5.writeAndFlush(echo);
-			c6.writeAndFlush(echo);
-			c7.writeAndFlush(echo);
-			c8.writeAndFlush(echo);
-//			c9.writeAndFlush(echo);
 		}
-		
-		// channel.writeAndFlush(new Echo("吃了没，您呐？"));
+
 	}
 }

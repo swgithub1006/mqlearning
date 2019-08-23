@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.coffee.model.Echo;
+import org.coffee.netty.constant.Constant;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -34,10 +35,17 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<Echo> {
 				Echo req = new Echo(reqDict.get(msg));
 				ctx.writeAndFlush(req);
 			} else if ("end".equals(msg)) {
-//				log.info("一次会话结束.共[{}]次会话.",total.incrementAndGet());
 				total.incrementAndGet();
-				if (Long.valueOf(1000000).equals(total.get()*8)) {
-					log.info("共耗时:[{}]秒", (System.currentTimeMillis() - resp.getStartTimeStamp())/1000);
+				if (Long.valueOf(total.get()).equals(Constant.MEETING_1)) {
+					log.info("相遇1万次,共耗时:[{}]秒", (System.currentTimeMillis() - resp.getStartTimeStamp())/1000);
+					return ;
+				}
+				if (Long.valueOf(total.get()).equals(Constant.MEETING_2)) {
+					log.info("相遇10万次,共耗时:[{}]秒", (System.currentTimeMillis() - resp.getStartTimeStamp())/1000);
+					return ;
+				}
+				if (Long.valueOf(total.get()).equals(Constant.MEETING_3)) {
+					log.info("相遇100万次,共耗时:[{}]秒", (System.currentTimeMillis() - resp.getStartTimeStamp())/1000);
 					return ;
 				}
 			}
