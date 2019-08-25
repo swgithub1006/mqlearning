@@ -1,12 +1,19 @@
 package org.coffee.netty;
 
-import org.junit.Test;
+import org.coffee.netty.client.EchoClient;
+import org.coffee.netty.constant.Constant;
 
 public class EchoTest {
 
-	@Test
-	public void meeting10000() {
-		System.out.println("meeting10000");
+	static void meeting10000() {
+//		EchoServer es = new EchoServer().bind(Constant.PORT);
+//		es.send(Constant.MEETING_1);
+		EchoClient client = new EchoClient(Constant.PORT, "127.0.0.1");
+		client.send(Constant.MEETING_1);
+	}
+
+	public static void main(String[] args) {
+		meeting10000();
 	}
 
 }

@@ -17,6 +17,7 @@ package org.coffee.netty.server;
 
 import org.coffee.netty.codec.EchoDecoder;
 import org.coffee.netty.codec.EchoEncoder;
+import org.coffee.netty.constant.Constant;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -31,37 +32,51 @@ import io.netty.handler.logging.LoggingHandler;
 
 public class EchoServer {
 
-	public void bind(int port) throws Exception {
-		// 配置服务端的NIO线程组
-		EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+	// 配置服务端的NIO线程组
+	private EventLoopGroup bossGroup = new NioEventLoopGroup(2);
 
-		EventLoopGroup workerGroup = new NioEventLoopGroup(2);
+	private EventLoopGroup workerGroup = new NioEventLoopGroup(1);
 
+	private ServerBootstrap b = new ServerBootstrap();
+
+	// private EchoServerHandler esh = new EchoServerHandler();
+	private EchoServerTwoWayHander esh = new EchoServerTwoWayHander();
+
+	public EchoServer() {
+		b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 100)
+				.handler(new LoggingHandler(LogLevel.INFO)).childHandler(new ChannelInitializer<SocketChannel>() {
+					@Override
+					public void initChannel(SocketChannel ch) {
+						// 解码
+						ch.pipeline().addLast(new EchoDecoder(1024 * 1024, 0, 4));
+						// 编码
+						ch.pipeline().addLast(new EchoEncoder());
+
+						ch.pipeline().addLast(esh);
+					}
+				});
+	}
+
+	public EchoServer bind(int port) {
 		try {
-			ServerBootstrap b = new ServerBootstrap();
-			b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 100)
-					.handler(new LoggingHandler(LogLevel.INFO)).childHandler(new ChannelInitializer<SocketChannel>() {
-						@Override
-						public void initChannel(SocketChannel ch) {
-							// 解码
-							ch.pipeline().addLast(new EchoDecoder(1024 * 1024, 0, 4));
-							// 编码
-							ch.pipeline().addLast(new EchoEncoder());
-
-							ch.pipeline().addLast(new EchoServerHandler());
-						}
-					});
-
 			// 绑定端口，同步等待成功
 			ChannelFuture f = b.bind(port).sync();
-
 			// 等待服务端监听端口关闭
 			f.channel().closeFuture().sync();
-		} finally {
-			// 优雅退出，释放线程池资源
-			bossGroup.shutdownGracefully();
-			workerGroup.shutdownGracefully();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
+		return this;
+	}
+
+	public void send(long count) {
+		esh.send(count);
+	}
+
+	public void shutdown() {
+		// 优雅退出，释放线程池资源
+		bossGroup.shutdownGracefully();
+		workerGroup.shutdownGracefully();
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -70,10 +85,11 @@ public class EchoServer {
 			try {
 				port = Integer.valueOf(args[0]);
 			} catch (NumberFormatException e) {
-				// 采用默认值
 				e.printStackTrace();
 			}
 		}
-		new EchoServer().bind(port);
+		
+		EchoServer es = new EchoServer().bind(port);
+		es.send(Constant.MEETING_2);
 	}
 }
