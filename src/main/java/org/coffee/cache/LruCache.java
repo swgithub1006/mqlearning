@@ -5,18 +5,19 @@ import java.util.Map;
 
 /**
  * 
- * @author coffee 
  * @date 2019年8月29日
  * @param <K> 键
  * @param <V> 值
- * 依葫芦画瓢的LruCache
+ * @Description 依葫芦画瓢的LruCache
  * @see org.apache.ibatis.cache.decorators.LruCache
  */
 public class LruCache<K, V> implements Storage<K, V> {
 
-	protected final Storage<K, V> lowSpeedStorage;
-
+	//缓存容量
 	protected final int capacity;
+	
+	//
+	protected final Storage<K, V> lowSpeedStorage;
 
 	/**
 	 * 基于 LinkedHashMap 实现淘汰机制
@@ -31,9 +32,23 @@ public class LruCache<K, V> implements Storage<K, V> {
 	public LruCache(int capacity, Storage<K, V> delegate) {
 		this.capacity = capacity;
 		this.lowSpeedStorage = delegate;
-		setSize(capacity);
-//		int size = (int) Math.ceil(this.capacity / 0.75f) + 1;
-//		setSize(size);
+		keyMap = new LinkedHashMap<K, K>(this.capacity, .75F, true) { //
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4476957430545177369L;
+
+			// LinkedHashMap自带的判断是否删除最老的元素方法，默认返回false，即不删除老数据.我们要做的就是重写这个方法，当满足一定条件时删除老数据
+			@Override
+			protected boolean removeEldestEntry(Map.Entry<K, K> eldest) {
+				boolean tooBig = size() > capacity;
+				if (tooBig) {
+					eldestKey = eldest.getKey();
+				}
+				return tooBig;
+			}
+		};
 	}
 
 	@Override
@@ -46,7 +61,6 @@ public class LruCache<K, V> implements Storage<K, V> {
 	@Override
 	public void put(K key, V value) {
 		this.lowSpeedStorage.put(key, value);
-		// 循环 keyMap
 		cycleKeyList(key);
 	}
 
@@ -70,31 +84,6 @@ public class LruCache<K, V> implements Storage<K, V> {
 	@Override
 	public int getSize() {
 		return this.lowSpeedStorage.getSize();
-	}
-
-	protected void setSize(final int size) {
-		// LinkedHashMap的一个构造函数，当参数accessOrder为true时，即会按照访问顺序排序，最近访问的放在最前，最早访问的放在后面
-		keyMap = new LinkedHashMap<K, K>(size, .75F, true) { //
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -4476957430545177369L;
-
-			// LinkedHashMap自带的判断是否删除最老的元素方法，默认返回false，即不删除老数据
-			// 我们要做的就是重写这个方法，当满足一定条件时删除老数据
-			// 方法调用链
-			//LinkedHashMap.removeEldestEntry ->  LinkedHashMap.void afterNodeInsertion(boolean evict) ->  
-			//HashMap.final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict)
-			@Override
-			protected boolean removeEldestEntry(Map.Entry<K, K> eldest) {
-				boolean tooBig = size() > size;
-				if (tooBig) {
-					eldestKey = eldest.getKey();
-				}
-				return tooBig;
-			}
-		};
 	}
 
 	private void cycleKeyList(K key) {
