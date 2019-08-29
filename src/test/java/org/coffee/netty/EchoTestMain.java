@@ -3,9 +3,9 @@ package org.coffee.netty;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.coffee.model.Echo;
 import org.coffee.netty.client.EchoClient;
 import org.coffee.netty.constant.Constant;
+import org.coffee.netty.protocol.Echo;
 
 import io.netty.channel.Channel;
 

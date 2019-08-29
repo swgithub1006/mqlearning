@@ -3,8 +3,8 @@ package org.coffee.netty.client;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.coffee.model.Echo;
 import org.coffee.netty.constant.Constant;
+import org.coffee.netty.protocol.Echo;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

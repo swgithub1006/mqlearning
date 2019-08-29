@@ -2,7 +2,7 @@ package org.coffee.netty.server;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.coffee.model.Echo;
+import org.coffee.netty.protocol.Echo;
 
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;

@@ -1,4 +1,4 @@
-package org.coffee.model;
+package org.coffee.netty.protocol;
 
 import java.io.Serializable;
 import java.nio.charset.Charset;

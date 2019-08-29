@@ -1,6 +1,6 @@
 package org.coffee.netty.codec;
 
-import org.coffee.model.Echo;
+import org.coffee.netty.protocol.Echo;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
