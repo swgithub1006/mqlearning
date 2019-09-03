@@ -1,8 +1,8 @@
-package org.coffee.netty.client;
+package org.coffee.mqlearning.echo.client;
 
-import org.coffee.netty.codec.EchoDecoder;
-import org.coffee.netty.codec.EchoEncoder;
-import org.coffee.netty.constant.Constant;
+import org.coffee.mqlearning.echo.codec.EchoDecoder;
+import org.coffee.mqlearning.echo.codec.EchoEncoder;
+import org.coffee.mqlearning.echo.constant.Constant;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;

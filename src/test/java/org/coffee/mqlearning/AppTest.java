@@ -1,4 +1,4 @@
-package org.coffee.netty;
+package org.coffee.mqlearning;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

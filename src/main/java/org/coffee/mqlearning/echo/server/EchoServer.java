@@ -13,11 +13,11 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package org.coffee.netty.server;
+package org.coffee.mqlearning.echo.server;
 
-import org.coffee.netty.codec.EchoDecoder;
-import org.coffee.netty.codec.EchoEncoder;
-import org.coffee.netty.constant.Constant;
+import org.coffee.mqlearning.echo.codec.EchoDecoder;
+import org.coffee.mqlearning.echo.codec.EchoEncoder;
+import org.coffee.mqlearning.echo.constant.Constant;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

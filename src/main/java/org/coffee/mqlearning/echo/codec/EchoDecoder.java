@@ -1,6 +1,6 @@
-package org.coffee.netty.codec;
+package org.coffee.mqlearning.echo.codec;
 
-import org.coffee.netty.protocol.Echo;
+import org.coffee.mqlearning.echo.protocol.Echo;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

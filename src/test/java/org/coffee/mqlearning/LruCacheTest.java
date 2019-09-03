@@ -1,4 +1,4 @@
-package org.coffee.netty;
+package org.coffee.mqlearning;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

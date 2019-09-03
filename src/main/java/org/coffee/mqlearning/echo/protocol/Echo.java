@@ -1,4 +1,4 @@
-package org.coffee.netty.protocol;
+package org.coffee.mqlearning.echo.protocol;
 
 import java.io.Serializable;
 import java.nio.charset.Charset;

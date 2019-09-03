@@ -1,4 +1,4 @@
-package org.coffee.netty.constant;
+package org.coffee.mqlearning.echo.constant;
 
 public interface Constant {
 

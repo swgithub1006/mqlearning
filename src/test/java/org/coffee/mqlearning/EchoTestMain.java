@@ -1,11 +1,11 @@
-package org.coffee.netty;
+package org.coffee.mqlearning;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.coffee.netty.client.EchoClient;
-import org.coffee.netty.constant.Constant;
-import org.coffee.netty.protocol.Echo;
+import org.coffee.mqlearning.echo.client.EchoClient;
+import org.coffee.mqlearning.echo.constant.Constant;
+import org.coffee.mqlearning.echo.protocol.Echo;
 
 import io.netty.channel.Channel;
 

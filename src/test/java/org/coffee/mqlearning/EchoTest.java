@@ -1,7 +1,7 @@
-package org.coffee.netty;
+package org.coffee.mqlearning;
 
-import org.coffee.netty.client.EchoClient;
-import org.coffee.netty.constant.Constant;
+import org.coffee.mqlearning.echo.client.EchoClient;
+import org.coffee.mqlearning.echo.constant.Constant;
 
 public class EchoTest {
 

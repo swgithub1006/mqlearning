@@ -1,21 +1,23 @@
-package org.coffee.netty.server;
+package org.coffee.mqlearning.echo.server;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.coffee.netty.protocol.Echo;
+import org.coffee.mqlearning.echo.protocol.Echo;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-//@Slf4j
 @Sharable
-public class EchoServerHandler extends ChannelInboundHandlerAdapter {
+public class EchoServerTwoWayHander extends ChannelInboundHandlerAdapter {
+
+	private volatile Channel channel = null;
 
 	private ConcurrentHashMap<String, String> respDict = new ConcurrentHashMap<>();
 
-	public EchoServerHandler() {
-		respDict.put("吃了没，您呐？", "刚吃。您这，嘛去？");
+	public EchoServerTwoWayHander() {
+		respDict.put("吃了没，您呐？", "您这，嘛去？");
 		respDict.put("嗨，没事溜溜弯儿。", "有空，家里坐坐啊。");
 		respDict.put("回头去给老太太请安。", "end");
 	}
@@ -39,7 +41,23 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+		super.channelActive(ctx);
+		
+	}
 
+	@Override
+	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+		super.channelRegistered(ctx);
+		channel = ctx.channel();
+	}
+
+	public void send(long count) {
+		String[] msgs = { "刚吃", "您这，嘛去？", "有空，家里坐坐啊。" };
+		for (long i = 0; i < count; i++) {
+			for (String msg : msgs) {
+				this.channel.writeAndFlush(new Echo(msg));
+			}
+		}
 	}
 
 }

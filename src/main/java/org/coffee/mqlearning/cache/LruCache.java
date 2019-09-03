@@ -1,4 +1,4 @@
-package org.coffee.cache;
+package org.coffee.mqlearning.cache;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

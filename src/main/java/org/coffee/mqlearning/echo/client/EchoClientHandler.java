@@ -1,10 +1,10 @@
-package org.coffee.netty.client;
+package org.coffee.mqlearning.echo.client;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.coffee.netty.constant.Constant;
-import org.coffee.netty.protocol.Echo;
+import org.coffee.mqlearning.echo.constant.Constant;
+import org.coffee.mqlearning.echo.protocol.Echo;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

@@ -1,4 +1,4 @@
-package org.coffee.netty.tools;
+package org.coffee.mqlearning.echo.tools;
 
 import com.google.protobuf.ExtensionRegistry;
 import com.google.protobuf.InvalidProtocolBufferException;

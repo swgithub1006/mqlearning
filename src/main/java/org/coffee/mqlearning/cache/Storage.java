@@ -1,4 +1,4 @@
-package org.coffee.cache;
+package org.coffee.mqlearning.cache;
 
 /**
  * KV 存储抽象
