@@ -5,17 +5,18 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.coffee.mqlearning.threadsafe.TransferService;
+import org.junit.After;
 import org.junit.Test;
 
 public class TransferServiceTest {
 
 	private static final int THREAD_NUM = 2;
 
-	private static CountDownLatch latch = new CountDownLatch(THREAD_NUM);
+	private CountDownLatch latch = new CountDownLatch(THREAD_NUM);
 
 	private ExecutorService pool = Executors.newFixedThreadPool(THREAD_NUM);
 
-	private TransferService tfs = new TransferService();
+	// private TransferService tfs = new TransferService();
 
 	private int count1w = 10000;
 
@@ -23,19 +24,18 @@ public class TransferServiceTest {
 
 	private int count100w = 1000000;
 
-	void calTime(int count, long end, long start) {
-		System.out.format("执行转账%d次,时间:%d毫秒\n", count, (end - start));
+	void calTime(String type, int count, long end, long start) {
+		System.out.format("类型：%s,执行转账%d次,时间:%d毫秒\n", type, count, (end - start));
 	}
 
 	/**
-	 * 执行转账10000次,时间:94毫秒
-	 * 转账完成,账户余额10000
+	 * 执行转账10000次,时间:94毫秒 转账完成,账户余额10000
 	 */
 	@Test
 	public void transferWithLock1w() {
 		int count = count1w;
 		long start = System.currentTimeMillis();
-
+		TransferService tfs = new TransferService();
 		for (int j = 0; j < THREAD_NUM; j++) {
 			pool.submit(() -> {
 				for (int i = 0; i < count / THREAD_NUM; i++) {
@@ -53,16 +53,15 @@ public class TransferServiceTest {
 		}
 
 		long end = System.currentTimeMillis();
-		calTime(count, end, start);
+		calTime("synchronized", count, end, start);
 		System.out.format("转账完成,账户余额%d\n", tfs.getBalance());
-		pool.shutdown();
 	}
 
 	@Test
 	public void transferWithLock10w() {
 		int count = count10w;
 		long start = System.currentTimeMillis();
-
+		TransferService tfs = new TransferService();
 		for (int j = 0; j < THREAD_NUM; j++) {
 			pool.submit(() -> {
 				for (int i = 0; i < count / THREAD_NUM; i++) {
@@ -80,10 +79,9 @@ public class TransferServiceTest {
 		}
 
 		long end = System.currentTimeMillis();
-		calTime(count, end, start);
+		calTime("synchronized", count, end, start);
 		System.out.format("转账完成,账户余额%d\n", tfs.getBalance());
 
-		pool.shutdown();
 	}
 
 	/**
@@ -94,7 +92,7 @@ public class TransferServiceTest {
 	public void transferWithLock100w() {
 		int count = count100w;
 		long start = System.currentTimeMillis();
-
+		TransferService tfs = new TransferService();
 		for (int j = 0; j < THREAD_NUM; j++) {
 			pool.submit(() -> {
 				for (int i = 0; i < count / THREAD_NUM; i++) {
@@ -112,9 +110,9 @@ public class TransferServiceTest {
 		}
 
 		long end = System.currentTimeMillis();
-		calTime(count, end, start);
+		calTime("synchronized", count, end, start);
 		System.out.format("转账完成,账户余额%d\n", tfs.getBalance());
-		pool.shutdown();
+
 	}
 
 	/**
@@ -125,13 +123,13 @@ public class TransferServiceTest {
 	public void transferCAS1w() {
 		int count = count1w;
 		long start = System.currentTimeMillis();
-
+		TransferService tfs = new TransferService();
 		for (int j = 0; j < THREAD_NUM; j++) {
 			pool.submit(() -> {
 				for (int i = 0; i < count / THREAD_NUM; i++) {
 					tfs.transferCAS(1);
 				}
-				
+
 				latch.countDown();
 			});
 		}
@@ -143,10 +141,10 @@ public class TransferServiceTest {
 		}
 
 		long end = System.currentTimeMillis();
-		calTime(count, end, start);
+		calTime("cas", count, end, start);
 		System.out.format("转账完成,账户余额%d\n", tfs.getBalance());
-		
-		pool.shutdown();
+
+		// pool.shutdown();
 	}
 
 	/**
@@ -157,13 +155,13 @@ public class TransferServiceTest {
 	public void transferCAS10w() {
 		int count = count10w;
 		long start = System.currentTimeMillis();
-		
+		TransferService tfs = new TransferService();
 		for (int j = 0; j < THREAD_NUM; j++) {
 			pool.submit(() -> {
 				for (int i = 0; i < count / THREAD_NUM; i++) {
 					tfs.transferCAS(1);
 				}
-				
+
 				latch.countDown();
 			});
 		}
@@ -175,9 +173,10 @@ public class TransferServiceTest {
 		}
 
 		long end = System.currentTimeMillis();
-		calTime(count, end, start);
+		calTime("cas", count, end, start);
 		System.out.format("转账完成,账户余额%d\n", tfs.getBalance());
-		pool.shutdown();
+
+		// pool.shutdown();
 	}
 
 	/**
@@ -188,13 +187,13 @@ public class TransferServiceTest {
 	public void transferCAS100w() {
 		int count = count100w;
 		long start = System.currentTimeMillis();
-		
+		TransferService tfs = new TransferService();
 		for (int j = 0; j < THREAD_NUM; j++) {
 			pool.submit(() -> {
 				for (int i = 0; i < count / THREAD_NUM; i++) {
 					tfs.transferCAS(1);
 				}
-				
+
 				latch.countDown();
 			});
 		}
@@ -206,9 +205,10 @@ public class TransferServiceTest {
 		}
 
 		long end = System.currentTimeMillis();
-		calTime(count, end, start);
+		calTime("cas", count, end, start);
 		System.out.format("转账完成,账户余额%d\n", tfs.getBalance());
-		pool.shutdown();
+
+		// pool.shutdown();
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class TransferServiceTest {
 	public void transferFAA1w() {
 		int count = count1w;
 		long start = System.currentTimeMillis();
-		
+		TransferService tfs = new TransferService();
 		for (int j = 0; j < THREAD_NUM; j++) {
 			pool.submit(() -> {
 				for (int i = 0; i < count / THREAD_NUM; i++) {
@@ -237,9 +237,10 @@ public class TransferServiceTest {
 		}
 
 		long end = System.currentTimeMillis();
-		calTime(count, end, start);
+		calTime("faa", count, end, start);
 		System.out.format("转账完成,账户余额%d\n", tfs.getBalance());
-		pool.shutdown();
+
+		// pool.shutdown();
 	}
 
 	/**
@@ -250,7 +251,7 @@ public class TransferServiceTest {
 	public void transferFAA10w() {
 		int count = count10w;
 		long start = System.currentTimeMillis();
-		
+		TransferService tfs = new TransferService();
 		for (int j = 0; j < THREAD_NUM; j++) {
 			pool.submit(() -> {
 				for (int i = 0; i < count / THREAD_NUM; i++) {
@@ -268,9 +269,10 @@ public class TransferServiceTest {
 		}
 
 		long end = System.currentTimeMillis();
-		calTime(count, end, start);
+		calTime("faa", count, end, start);
 		System.out.format("转账完成,账户余额%d\n", tfs.getBalance());
-		pool.shutdown();
+
+		// pool.shutdown();
 	}
 
 	/**
@@ -281,7 +283,7 @@ public class TransferServiceTest {
 	public void transferFAA100w() {
 		int count = count100w;
 		long start = System.currentTimeMillis();
-		
+		TransferService tfs = new TransferService();
 		for (int j = 0; j < THREAD_NUM; j++) {
 			pool.submit(() -> {
 				for (int i = 0; i < count / THREAD_NUM; i++) {
@@ -299,9 +301,15 @@ public class TransferServiceTest {
 		}
 
 		long end = System.currentTimeMillis();
-		calTime(count, end, start);
+		calTime("faa", count, end, start);
 		System.out.format("转账完成,账户余额%d\n", tfs.getBalance());
-		pool.shutdown();
+
+		// pool.shutdown();
+	}
+
+	@After
+	public void after() {
+		// pool.shutdown();
 	}
 
 }
