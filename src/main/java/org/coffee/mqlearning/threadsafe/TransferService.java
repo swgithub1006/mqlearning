@@ -21,10 +21,13 @@ public class TransferService {
 	 * @param amount
 	 */
 	public void transferCAS(int amount) {
+/*		if(amount<=0) {
+			throw new IllegalArgumentException("参数错误");
+		}*/
 		while (true) {
 			int current = balanceAtomic.get();
 			int value = current + amount;
-			if (value > current) {
+			if (value != current) {
 				if (balanceAtomic.compareAndSet(current, value)) {
 					break;
 				} else {
