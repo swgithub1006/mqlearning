@@ -40,11 +40,11 @@ public class TransferService {
 	}
 
 	/**
-	 * 通过FAA实现的线程安全的转账
+	 * 通过FAA实现的线程安全的转账 FAA 原语（Fetch and Add)
 	 * @param amount
 	 */
 	public void transferFAA(int amount) {
-		balanceAtomic.addAndGet(amount);
+		balanceAtomic.getAndAdd(amount);
 	}
 
 	public int getBalance() {
