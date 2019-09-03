@@ -6,12 +6,20 @@ public class TransferService {
 
 	private AtomicInteger balanceAtomic = new AtomicInteger(0);
 
+	/**
+	 * 通过synchronized实现的线程安全的转账
+	 * @param amount
+	 */
 	public synchronized void transferWithLock(int amount) {
 		int current = balanceAtomic.get();
 		int value = current + amount;
 		balanceAtomic.set(value);
 	}
 
+	/**
+	 * 通过CAS实现的线程安全的转账
+	 * @param amount
+	 */
 	public void transferCAS(int amount) {
 		while (true) {
 			int current = balanceAtomic.get();
@@ -28,6 +36,10 @@ public class TransferService {
 		}
 	}
 
+	/**
+	 * 通过FAA实现的线程安全的转账
+	 * @param amount
+	 */
 	public void transferFAA(int amount) {
 		balanceAtomic.addAndGet(amount);
 	}
