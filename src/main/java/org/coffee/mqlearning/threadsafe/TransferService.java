@@ -40,7 +40,7 @@ public class TransferService {
 	}
 
 	/**
-	 * 通过FAA实现的线程安全的转账 FAA 原语（Fetch and Add)
+	 * 通过FAA实现的线程安全的转账 FAA 原语(Fetch and Add)
 	 * @param amount
 	 */
 	public void transferFAA(int amount) {
