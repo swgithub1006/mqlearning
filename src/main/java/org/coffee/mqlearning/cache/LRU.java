@@ -14,6 +14,8 @@ public class LRU<K, V> {
 	// private static final float LOAD_FACTOR = 0.75f;
 
 	// private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+	
+	
 
 	public LRU(int size) {
 		this.capacity = size;

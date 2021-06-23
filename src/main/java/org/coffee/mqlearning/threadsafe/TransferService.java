@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TransferService {
 
 	private AtomicInteger balanceAtomic = new AtomicInteger(0);
-	
 
 	/**
 	 * 通过synchronized实现的线程安全的转账
