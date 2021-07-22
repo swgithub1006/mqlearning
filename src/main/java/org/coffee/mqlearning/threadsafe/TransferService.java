@@ -8,6 +8,7 @@ public class TransferService {
 
 	/**
 	 * 通过synchronized实现的线程安全的转账
+	 * 
 	 * @param amount
 	 */
 	public synchronized void transferWithLock(int amount) {
@@ -18,12 +19,13 @@ public class TransferService {
 
 	/**
 	 * 通过CAS实现的线程安全的转账
+	 * 
 	 * @param amount
 	 */
 	public void transferCAS(int amount) {
-/*		if(amount<=0) {
-			throw new IllegalArgumentException("参数错误");
-		}*/
+		/*
+		 * if(amount<=0) { throw new IllegalArgumentException("参数错误"); }
+		 */
 		while (true) {
 			int current = balanceAtomic.get();
 			int value = current + amount;
@@ -41,6 +43,7 @@ public class TransferService {
 
 	/**
 	 * 通过FAA实现的线程安全的转账 FAA 原语(Fetch and Add)
+	 * 
 	 * @param amount
 	 */
 	public void transferFAA(int amount) {
